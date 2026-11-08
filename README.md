@@ -66,3 +66,53 @@ Configured VLANs, Layer-2 EtherChannels, and trunk links across both offices to 
 ### Verification
 
 Verified VLAN creation and propagation, EtherChannel formation, trunk configurations, and interface status using appropriate show commands.
+
+## Part 3 – IP Addresses, Layer-3 EtherChannel & HSRP
+
+In this section, I configured the Layer 3 addressing and gateway redundancy for the network.
+
+### Completed Tasks
+
+- Configured IPv4 addressing on **R1**, including two DHCP client interfaces and a Loopback interface.
+- Enabled **IPv4 routing** on the Core and Distribution switches.
+- Configured a **Layer 3 EtherChannel** between CSW1 and CSW2 using Cisco's proprietary **PAgP** protocol, with both switches actively negotiating the EtherChannel.
+- Configured IPv4 addresses on the routed interfaces and Loopback interfaces of **CSW1, CSW2, DSW-A1, DSW-A2, DSW-B1, and DSW-B2**.
+- Disabled unused interfaces on the Core switches.
+- Configured the IP address, subnet mask, and default gateway manually on **SRV1**.
+- Configured management IP addresses on **VLAN 99** for all Access switches.
+- Configured the appropriate first usable IP address in each management subnet as the default gateway for the Access switches.
+- Configured **HSRPv2** for the Management, PC, Phone, Wi-Fi, and Server VLANs across Office A and Office B.
+- Configured HSRP priorities and preemption to ensure the intended Distribution switch became the Active router for each subnet.
+
+### HSRP Configuration
+
+#### Office A
+
+| VLAN / Network | HSRP Group | Virtual IP | Active Router |
+|---|---:|---|---|
+| Management – 10.0.0.0/28 | 1 | 10.0.0.1 | DSW-A1 |
+| PCs – 10.1.0.0/24 | 2 | 10.1.0.1 | DSW-A1 |
+| Phones – 10.2.0.0/24 | 3 | 10.2.0.1 | DSW-A2 |
+| Wi-Fi – 10.6.0.0/24 | 4 | 10.6.0.1 | DSW-A2 |
+
+#### Office B
+
+| VLAN / Network | HSRP Group | Virtual IP | Active Router |
+|---|---:|---|---|
+| Management – 10.0.0.16/28 | 1 | 10.0.0.17 | DSW-B1 |
+| PCs – 10.3.0.0/24 | 2 | 10.3.0.1 | DSW-B1 |
+| Phones – 10.4.0.0/24 | 3 | 10.4.0.1 | DSW-B2 |
+| Servers – 10.5.0.0/24 | 4 | 10.5.0.1 | DSW-B2 |
+
+### Verification
+
+The configuration was verified using appropriate `show` commands to confirm:
+
+- Interface IP addressing and operational status
+- Layer 3 EtherChannel formation
+- PAgP negotiation
+- IPv4 routing
+- HSRPv2 Active and Standby roles
+- Correct HSRP virtual IP addresses
+- Access switch management connectivity
+
