@@ -116,3 +116,39 @@ The configuration was verified using appropriate `show` commands to confirm:
 - Correct HSRP virtual IP addresses
 - Access switch management connectivity
 
+## Part 4 – Rapid Spanning Tree Protocol (Rapid PVST+)
+
+In this section, I configured Rapid PVST+ across the Access and Distribution switches to prevent Layer 2 switching loops and provide redundant paths.
+
+### Completed Tasks
+
+- Configured **Rapid PVST+** on all Access and Distribution switches.
+- Configured the Distribution switch acting as the **HSRP Active router** for each VLAN as the **STP Root Bridge** by assigning the lowest possible STP priority.
+- Configured the corresponding HSRP Standby router with an STP priority one increment above the Root Bridge.
+- Aligned the STP Root Bridge with the HSRP Active gateway to provide more efficient traffic forwarding.
+- Enabled **PortFast** on ports connected to end devices, including WLC1.
+- Enabled **BPDU Guard** on all end-host ports to protect the network from potential Layer 2 loops caused by incorrectly connected switches.
+
+### STP and HSRP Alignment
+
+The STP Root Bridge was configured to match the HSRP Active router for each VLAN:
+
+| Location | VLANs | STP Root Bridge |
+|---|---|---|
+| Office A | VLAN 10, VLAN 99 | DSW-A1 |
+| Office A | VLAN 20, VLAN 40 | DSW-A2 |
+| Office B | VLAN 10, VLAN 99 | DSW-B1 |
+| Office B | VLAN 20, VLAN 30 | DSW-B2 |
+
+The HSRP Standby routers were configured with the next-highest STP priority to act as the secondary Root Bridge.
+
+### Verification
+
+The configuration was verified using STP show commands to confirm:
+
+- Rapid PVST+ was enabled.
+- The intended Distribution switches became the Root Bridge for their assigned VLANs.
+- STP priorities were correctly configured.
+- Redundant links were managed to prevent Layer 2 loops.
+- PortFast and BPDU Guard were enabled on end-host ports.
+
