@@ -152,3 +152,32 @@ The configuration was verified using STP show commands to confirm:
 - Redundant links were managed to prevent Layer 2 loops.
 - PortFast and BPDU Guard were enabled on end-host ports.
 
+## Part 5 – Static and Dynamic Routing
+
+### 1. OSPF Configuration
+
+- Configured OSPF on R1 (LAN-facing interfaces), all Core switches and all Distribution switches.
+- Used OSPF process ID 1 and Area 0.
+- Manually configured each device's Router ID (RID) to match its Loopback interface IP.
+- Used the `network` command with exact IP addresses and wildcard mask `0.0.0.0` on switches.
+- Enabled OSPF directly on R1's interfaces using interface configuration mode.
+- Enabled OSPF on all Loopback interfaces and configured them as passive.
+- Configured Distribution switch SVIs as passive, except for the Management VLAN SVI.
+- Configured physical OSPF neighbor connections to use point-to-point network type to prevent DR/BDR elections.
+- Left the Layer 3 Port-channel interfaces between CSW1 and CSW2 at their default network type.
+
+### 2. Static Default Routing
+
+- Configured recursive static default routes on R1 for both Internet connections.
+- Configured the route through G0/1/0 as a floating static route with an administrative distance of 2.
+- Configured R1 to function as an OSPF Autonomous System Boundary Router (ASBR).
+- Used `default-information originate` to advertise R1's default route to other routers in the OSPF domain.
+
+### Verification
+
+Commands used to verify the configuration:
+
+- `show ip ospf` – Verify OSPF process and Router ID.
+- `show ip ospf neighbor` – Verify OSPF neighbor adjacencies.
+
+
