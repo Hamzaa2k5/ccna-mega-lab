@@ -181,18 +181,85 @@ Commands used to verify the configuration:
 - `show ip ospf neighbor` – Verify OSPF neighbor adjacencies.
 
 
-Part 6 – Network Services, Security & NAT
-Configured essential network services and secured remote device management across the network.
+## Part 6 – Network Services, Security & NAT
 
-Key configurations:
-- DHCP: Configured seven DHCP pools on R1 for Office A, Office B, and Wi-Fi clients, including excluded addresses, default gateways, DNS, domain names, and WLC Option 43.
-- DHCP Relay: Configured Distribution switches to forward DHCP requests to R1's Loopback0 address.
-- DNS: Configured DNS records on SRV1 and set all routers and switches to use SRV1 for name resolution.
-- NTP: Configured R1 as a stratum 5 NTP server and synchronized network devices using authenticated NTP.
-- SNMP & Syslog: Configured read-only SNMP access and centralized Syslog logging on SRV1, including buffered logging.
-- FTP & IOS Upgrade: Transferred a new IOS image from SRV1 to R1 using FTP and configured the router to boot from the new image.
-- SSH: Enabled SSHv2 with 4096-bit RSA keys, local user authentication, and ACL-based access restrictions allowing only Office A's PC subnet.
-- NAT: Configured static NAT to provide external access to SRV1 and dynamic PAT using a public address pool for Internet access.
-- Redundancy Testing: Tested Internet connectivity and default-route failover between the two ISP connections.
-- LLDP: Disabled CDP and enabled LLDP across network devices, with LLDP transmission disabled on specified access ports.
-Result: Completed network service configuration, secure remote management, Internet address translation, and connectivity failover testing
+In this section, I configured essential network services across the enterprise network, including DHCP, DNS, NTP, SNMP, Syslog, FTP, SSH, and NAT. I also configured secure remote management and tested Internet connectivity and failover.
+
+### 1. DHCP Configuration
+
+- Configured seven DHCP pools on R1 for Office A, Office B, and Wi-Fi clients.
+- Configured the appropriate subnet, default gateway, domain name (`jeremysitlab.com`), and DNS server (`10.5.0.4`) for each pool.
+- Excluded the first ten usable host addresses from each DHCP pool to prevent them from being leased to clients.
+- Configured DHCP Option 43 in the Management pools to provide the WLC address (`10.0.0.7`).
+- Configured the Distribution switches to relay DHCP broadcasts to R1's Loopback0 address.
+
+### 2. DNS Configuration
+
+- Configured DNS records on SRV1 for `google.com`, `youtube.com`, and `jeremysitlab.com`.
+- Configured `www.jeremysitlab.com` as an alias of `jeremysitlab.com`.
+- Configured all routers and switches to use `jeremysitlab.com` as their domain name and SRV1 (`10.5.0.4`) as their DNS server.
+
+### 3. NTP Configuration
+
+- Configured R1 as a Stratum 5 NTP server.
+- Configured R1 to synchronize its time with the external NTP server (`216.239.35.0`).
+- Configured all Core, Distribution, and Access switches to use R1's Loopback0 interface as their NTP server.
+- Configured NTP authentication using key number 1 and password `ccna`.
+
+### 4. SNMP and Syslog
+
+- Configured the SNMP community string `SNMPSTRING` on all routers and switches.
+- Restricted SNMP access to read-only (GET) operations, preventing write (SET) operations.
+- Configured all routers and switches to send Syslog messages to SRV1.
+- Enabled logging of all severity levels and configured buffered logging with 8192 bytes of memory.
+
+### 5. FTP and IOS Upgrade
+
+- Configured R1's default FTP credentials using username `cisco` and password `cisco`.
+- Used FTP to transfer the new IOS image (`c2900-universalk9-mz.SPA.155-3.M4a.bin`) from SRV1 to R1's flash storage.
+- Configured R1 to boot using the new IOS image.
+- Rebooted R1 and removed the previous IOS image from flash.
+
+### 6. SSH Configuration
+
+- Generated 4096-bit RSA key pairs on all routers and switches.
+- Enabled SSH Version 2 (SSHv2) for secure remote management.
+- Created standard ACL 1 to permit SSH access only from Office A's PCs subnet (`10.1.0.0/24`).
+- Applied ACL 1 inbound to all VTY lines to restrict remote access.
+- Configured VTY lines to accept SSH connections only, disabling Telnet access.
+- Enabled local username authentication using `login local`.
+- Configured synchronous logging on all VTY lines.
+
+### 7. NAT Configuration
+
+- Configured static NAT on R1 to allow external access to SRV1 using public IP address `203.0.113.113`.
+- Configured standard ACL 2 to identify the inside local networks permitted to access the Internet:
+  - Office A PCs: `10.1.0.0/24`
+  - Office A Phones: `10.2.0.0/24`
+  - Office B PCs: `10.3.0.0/24`
+  - Office B Phones: `10.4.0.0/24`
+  - Wi-Fi: `10.6.0.0/24`
+- Configured a dynamic NAT pool named `POOL1` with public IP addresses ranging from `203.0.113.200` to `203.0.113.207` using a `/29` subnet mask.
+- Mapped ACL 2 to POOL1 and enabled Port Address Translation (PAT) to allow multiple internal hosts to share public IP addresses.
+- Verified Internet connectivity by pinging `jeremysitlab.com`.
+- Tested Internet link failover by disabling R1's primary ISP interface and verifying connectivity through the secondary ISP connection.
+
+### 8. CDP and LLDP
+
+- Disabled Cisco Discovery Protocol (CDP) on all network devices.
+- Enabled Link Layer Discovery Protocol (LLDP) as the alternative device discovery protocol.
+- Disabled LLDP transmission on the specified Access switch access ports (F0/1).
+
+### Verification
+
+The configurations were verified using relevant show commands and connectivity tests to confirm:
+
+- DHCP address allocation and DHCP relay operation.
+- DNS name resolution using SRV1.
+- NTP server configuration and authentication.
+- SNMP and centralized Syslog configuration.
+- Successful FTP transfer and IOS upgrade on R1.
+- SSHv2 operation and ACL-based remote access restrictions.
+- Static NAT and dynamic PAT translations.
+- Internet connectivity and ISP failover.
+- CDP disabled and LLDP enabled across network devices.
