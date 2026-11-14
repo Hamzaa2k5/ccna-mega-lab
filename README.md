@@ -181,3 +181,18 @@ Commands used to verify the configuration:
 - `show ip ospf neighbor` – Verify OSPF neighbor adjacencies.
 
 
+Part 6 – Network Services, Security & NAT
+Configured essential network services and secured remote device management across the network.
+
+Key configurations:
+- DHCP: Configured seven DHCP pools on R1 for Office A, Office B, and Wi-Fi clients, including excluded addresses, default gateways, DNS, domain names, and WLC Option 43.
+- DHCP Relay: Configured Distribution switches to forward DHCP requests to R1's Loopback0 address.
+- DNS: Configured DNS records on SRV1 and set all routers and switches to use SRV1 for name resolution.
+- NTP: Configured R1 as a stratum 5 NTP server and synchronized network devices using authenticated NTP.
+- SNMP & Syslog: Configured read-only SNMP access and centralized Syslog logging on SRV1, including buffered logging.
+- FTP & IOS Upgrade: Transferred a new IOS image from SRV1 to R1 using FTP and configured the router to boot from the new image.
+- SSH: Enabled SSHv2 with 4096-bit RSA keys, local user authentication, and ACL-based access restrictions allowing only Office A's PC subnet.
+- NAT: Configured static NAT to provide external access to SRV1 and dynamic PAT using a public address pool for Internet access.
+- Redundancy Testing: Tested Internet connectivity and default-route failover between the two ISP connections.
+- LLDP: Disabled CDP and enabled LLDP across network devices, with LLDP transmission disabled on specified access ports.
+Result: Completed network service configuration, secure remote management, Internet address translation, and connectivity failover testing
