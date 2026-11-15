@@ -293,3 +293,20 @@ Configured network access controls and Layer-2 security features to protect the 
 - Configured trusted ports.
 - Enabled optional ARP validation checks to help prevent ARP spoofing attacks.
 
+
+## Part 8 – IPv6
+
+Configured IPv6 addressing and static routing to prepare the network for an IPv6 migration.
+
+### 1. IPv6 Addressing
+- Enabled IPv6 routing on R1, CSW1 and CSW2.
+- Configured static IPv6 addresses on R1's G0/0/0 and G0/1/0 interfaces.
+- Used EUI-64 to automatically generate interface IDs on R1's LAN-facing interfaces and the corresponding Core Switch interfaces.
+- Enabled IPv6 on CSW1 and CSW2 Port-channel 1 interfaces without manually assigning IPv6 addresses.
+
+### 2. IPv6 Static Default Routes
+- Configured a recursive static default route through next hop `2001:db8:a::1`.
+- Configured a fully specified floating static default route through next hop `2001:db8:b::1`.
+- Set the floating route's administrative distance to 2, making it a backup to the primary route (AD 1).
+
+
