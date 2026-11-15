@@ -263,3 +263,33 @@ The configurations were verified using relevant show commands and connectivity t
 - Static NAT and dynamic PAT translations.
 - Internet connectivity and ISP failover.
 - CDP disabled and LLDP enabled across network devices.
+
+## Part 7 – Security: ACLs and Layer-2 Security Features
+
+Configured network access controls and Layer-2 security features to protect the network against unauthorized access and common attacks.
+
+### 1. Extended ACLs
+- Created an extended ACL (`OfficeA_to_OfficeB`) to control traffic between Office A and Office B.
+- Allowed ICMP traffic from Office A PCs to Office B PCs.
+- Denied all other traffic between the two PC subnets while permitting all other traffic.
+- Applied the ACL following extended ACL placement best practices.
+
+### 2. Port Security
+- Configured Port Security on F0/1 of each Access switch.
+- Restricted the number of permitted MAC addresses.
+- Configured violation handling to block unauthorized traffic while allowing valid traffic.
+- Enabled notifications for security violations.
+- Configured sticky MAC learning to automatically save secure MAC addresses to the running configuration.
+
+### 3. DHCP Snooping
+- Enabled DHCP Snooping on all active VLANs across the Access switches.
+- Configured trusted uplink ports towards the Distribution switches.
+- Disabled DHCP Option 82 insertion.
+- Applied a DHCP rate limit of 15 packets per second on active untrusted ports.
+- Increased the rate limit to 100 packets per second on ASW-A1's connection to WLC1.
+
+### 4. Dynamic ARP Inspection (DAI)
+- Enabled DAI on all active VLANs across the Access switches.
+- Configured trusted ports.
+- Enabled optional ARP validation checks to help prevent ARP spoofing attacks.
+
