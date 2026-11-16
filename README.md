@@ -310,3 +310,28 @@ Configured IPv6 addressing and static routing to prepare the network for an IPv6
 - Set the floating route's administrative distance to 2, making it a backup to the primary route (AD 1).
 
 
+## Part 9 – Wireless
+
+Configured a Wireless LAN Controller (WLC) to provide wireless connectivity through centrally managed Lightweight Access Points (LWAPs).
+
+### 1. WLC Management
+- Accessed the WLC1 web GUI from a PC using its management IP address (`10.0.0.7`).
+
+### 2. Dynamic Interface Configuration
+- Created a dynamic interface named `Wi-Fi` on VLAN 40.
+- Configured port 1 and assigned IP address `10.6.0.4/24`.
+- Set the default gateway to `10.6.0.1`.
+- Configured the DHCP server address as `10.0.0.76`.
+- Used `10.6.0.4` instead of `10.6.0.2` to avoid an IP address conflict with DSW-A1.
+
+### 3. WLAN Configuration
+- Created and enabled a WLAN with profile name and SSID `Wi-Fi`.
+- Assigned WLAN ID 1.
+- Configured WPA2 security with AES encryption.
+- Set the pre-shared key (PSK) to `cisco123`.
+
+### 4. Lightweight Access Point Verification
+- Verified that both LWAPs successfully associated with WLC1.
+- Noted Packet Tracer's limitation preventing wireless clients from obtaining IP addresses through the Wi-Fi DHCP pool.
+
+
